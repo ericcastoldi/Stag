@@ -1,0 +1,16 @@
+﻿{
+    "Username" : "Eric.Castoldi",
+    "Email" : "eric.castoldi@email.com.br",
+    "Password" : "password",
+    "RemoteUrl" : "http://url-to-remote/repo.git",
+	"Workspace" : "repo-path",
+    "WorkBranch" : "work-branch-name" ,
+	"TaskBranchPrefix" : "tarefa",
+	"MergeBranchPrefix" : "merge",
+	"GsbdBranchPrefix" : "gsbd",
+	"GitLabPrivateToken" : "xxxxxxx",
+	"GitLabProjectName" : "project",
+	"GitLabApproverUsername" : "Eric.Castoldi",
+	"StorageBasePath" : "C:\\Stag",
+	"MiscTaskId": "342365"
+}

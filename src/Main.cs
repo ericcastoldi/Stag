@@ -1,29 +1,50 @@
-﻿using Stag.Service;
+﻿using Stag.Model;
+using Stag.Service;
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Stag
 {
     public partial class Main : Form
     {
+        private Task _currentTask;
+
         public Main()
         {
+            _currentTask = null;
             InitializeComponent();
         }
 
         private void Main_Load(object sender, EventArgs e)
         {
+            LoadMyTasks();
+        }
+
+        private void LoadMyTasks()
+        {
             var taskService = new TaskService();
 
             var tasks = taskService.MyTasks();
             cmbTasks.Items.AddRange(tasks.ToArray());
+        }
+
+        private Task GetSelectedTask()
+        {
+            var taskIndex = cmbTasks.SelectedIndex;
+            var task = cmbTasks.Items[taskIndex] as Task;
+
+            return task;
+        }
+
+        private void LoadTask(Task task)
+        {
+            var namingService = new BranchNamingService();
+
+            txtDevelopmentBranch.Text = task.DevelopmentBranchName ?? namingService.CreateDevelopmentBranchName(task);
+            txtMergeBranch.Text = task.MergeBranchName ?? namingService.CreateMergeBranchName(task, txtDevelopmentBranch.Text);
+
+            _currentTask = task;
         }
 
         private void cmbTasks_SelectedValueChanged(object sender, EventArgs e)

@@ -12,10 +12,21 @@ namespace Stag.Service
             _settings = new Settings();
         }
 
+
+
         public string CreateMergeBranchName(Task task)
         {
-            var decomposedDevBranchName = task.DevelopmentBranchName.Split('/')[1];
-            return string.Format("{0}/{1}-para-{2}", _settings.MergeBranchPrefix, decomposedDevBranchName, _settings.WorkBranch);
+            return this.CreateMergeBranchName(task, task.DevelopmentBranchName);
+        }
+
+        public string CreateMergeBranchName(Task task, string developmentBranchName)
+        {
+            if (developmentBranchName.Contains("/"))
+            { 
+                developmentBranchName = developmentBranchName.Split('/')[1];
+            }
+
+            return string.Format("{0}/{1}-para-{2}", _settings.MergeBranchPrefix, developmentBranchName, _settings.WorkBranch);
         }
 
         public string CreateDevelopmentBranchName(Task task)

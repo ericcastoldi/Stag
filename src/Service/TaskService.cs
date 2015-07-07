@@ -81,6 +81,22 @@ namespace Stag.Service
 
         public IList<Task> MyTasks()
         {
+            var helpnetTasks = GetHelpnetTasks();
+            var localTaskList = _warehouse.Retrieve().ToList();
+
+            foreach (var task in helpnetTasks)
+            {
+                if (!localTaskList.Any(p => p.Id == task.Id))
+                {
+                    localTaskList.Add(task);
+                }
+            }
+
+            return localTaskList.AsQueryable().Where(t => t.State != TaskState.Completed).ToList();
+        }
+
+        public IList<Task> GetHelpnetTasks()
+        {
             using (var connection = OpenConnection())
             {
                 var cmd = connection.CreateCommand();

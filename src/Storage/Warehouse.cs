@@ -19,11 +19,11 @@ namespace Stag.Storage
             var filename = string.Format("{0}.json", typeof(T).Name.ToLower().Pluralize());
             _storepath = Path.Combine(settings.StorageBasePath, filename);
 
-            if(!Directory.Exists(settings.StorageBasePath))
+            if (!Directory.Exists(settings.StorageBasePath)) 
                 Directory.CreateDirectory(settings.StorageBasePath);
-        
-            if (!File.Exists(_storepath))
-                using (var file = File.Create(_storepath)) ;
+
+            if (!File.Exists(_storepath)) 
+                using (var file = File.Create(_storepath)) { };
         }
 
         public virtual void Store(T item)

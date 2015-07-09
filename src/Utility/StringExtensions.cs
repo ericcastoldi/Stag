@@ -1,12 +1,18 @@
 ﻿using System.Text.RegularExpressions;
 
-namespace Stag.Util
+namespace Stag.Utility
 {
     public static class StringExtensions
     {
         public static string GenerateSlug(this string phrase)
         {
+            if (string.IsNullOrWhiteSpace(phrase))
+            {
+                return string.Empty;
+            }
+
             string str = phrase.Trim().RemoveAccent().ToLower();
+
             // invalid chars           
             str = Regex.Replace(str, @"[^a-z0-9\s-]", "");
             // convert multiple spaces into one space   

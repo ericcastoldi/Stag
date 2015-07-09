@@ -1,5 +1,6 @@
 ﻿using Stag.Model;
 using Stag.Service;
+using Stag.Storage;
 using System;
 using System.Linq;
 using System.Windows.Forms;
@@ -42,15 +43,14 @@ namespace Stag
             var namingService = new BranchNamingService();
 
             txtDevelopmentBranch.Text = task.DevelopmentBranchName ?? namingService.CreateDevelopmentBranchName(task);
-            txtMergeBranch.Text = task.MergeBranchName ?? namingService.CreateMergeBranchName(task, txtDevelopmentBranch.Text);
+            txtMergeBranch.Text = task.MergeBranchName ?? namingService.CreateMergeBranchName(txtDevelopmentBranch.Text);
 
             _currentTask = task;
         }
 
         private void cmbTasks_SelectedValueChanged(object sender, EventArgs e)
         {
-            var taskIndex = ((ComboBox)sender).SelectedIndex;
-            var task = ((ComboBox)sender).Items[taskIndex] as Stag.Model.Task;
+            var task = GetSelectedTask();
 
             var namingService = new BranchNamingService();
             txtDevelopmentBranch.Text = namingService.CreateDevelopmentBranchName(task);
@@ -73,6 +73,13 @@ namespace Stag
 
             var taskService = new TaskService();
             taskService.Merge(task);
+        }
+
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            // TODO: Implementar regra de persistencia no TaskService
+            var warehouse = new Warehouse<Task>();
+            warehouse.Store(_currentTask);
         }
     }
 }

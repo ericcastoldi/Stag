@@ -3,7 +3,7 @@ namespace Stag.Model
 {
     public class Task
     {
-        public Task(string title, string id = null)
+        public Task(string title, string id)
         {
             this.Id = id;
             this.Title = title;

@@ -25,20 +25,30 @@ namespace Stag.SourceControl
             }
         }
 
-        public Branch CreateBranch(string branch, string baseBranchName = null)
+        public Branch CreateBranch(string branch)
+        {
+            return CreateBranch(branch, _settings.WorkBranch);
+        }
+
+        public Branch CreateBranch(string branch, string baseBranchName)
         {
             using (var repo = new Repository(_settings.Workspace))
             {
-                var baseBranch = repo.Lookup<Commit>(baseBranchName ?? _settings.WorkBranch);
+                var baseBranch = repo.Lookup<Commit>(baseBranchName);
                 return repo.CreateBranch(branch, baseBranch);
             }
         }
 
-        public Branch Checkout(string branch = null)
+        public Branch Checkout()
+        {
+            return Checkout(_settings.WorkBranch);
+        }
+
+        public Branch Checkout(string branch)
         {
             using (var repo = new Repository(_settings.Workspace))
             {
-                return repo.Checkout(branch ?? _settings.WorkBranch);
+                return repo.Checkout(branch);
             }
         }
 

@@ -5,11 +5,12 @@ using Stag.Configuration;
 using Stag.Model;
 using Stag.SourceControl;
 using Stag.Storage;
-using Stag.Util;
+using Stag.Utility;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
+using System;
 
 namespace Stag.Service
 {
@@ -24,13 +25,16 @@ namespace Stag.Service
             _warehouse = new Warehouse<Task>();
         }
 
-        public void StartWork(string taskTitle, string taskId = null)
+        public void StartWork(string taskTitle, string taskId)
         {
             StartWork(new Task(taskTitle, taskId));
         }
 
         public void StartWork(Task task)
         {
+            if(task == null || (string.IsNullOrWhiteSpace(task.Id) || string.IsNullOrWhiteSpace(task.Title)))
+                throw new ArgumentNullException("task");
+
             var git = new Git();
             UpdateWorkBranch(git);
             var taskBranch = CreateTaskBranch(task, git);
@@ -43,6 +47,13 @@ namespace Stag.Service
 
         public void Merge(Task task)
         {
+            if(task == null 
+                || string.IsNullOrWhiteSpace(task.DevelopmentBranchName)
+                || task.State == TaskState.NotStarted)
+            {
+                throw new ArgumentNullException("task");
+            }
+
             var git = new Git();
             UpdateWorkBranch(git);
             
@@ -56,6 +67,17 @@ namespace Stag.Service
 
         public GitLabModels.MergeRequest Submit(Task task)
         {
+            // TODO: Definir a implementação dessas validações
+            if (task == null
+                || string.IsNullOrWhiteSpace(task.MergeBranchName)
+                || (string.IsNullOrWhiteSpace(task.Id)
+                    || string.IsNullOrWhiteSpace(task.Title))
+                || task.State == TaskState.NotStarted)
+            {
+                throw new ArgumentNullException("task");
+            }
+
+
             var git = new Git();
             git.Push(task.MergeBranchName);
 
@@ -130,7 +152,7 @@ namespace Stag.Service
 
         private void UpdateWorkBranch(Git git)
         {
-            var baseBranch = git.Checkout();
+            git.Checkout();
             var mergeResult = git.UpdateCurrentBranch();
 
             if (mergeResult.Status == MergeStatus.Conflicts)
@@ -139,27 +161,27 @@ namespace Stag.Service
             }
         }
 
-        private Branch CreateMergeBranch(Task task, Git git)
+        private static Branch CreateMergeBranch(Task task, Git git)
         {
             // TODO: Se o cara alterar o nome do branch na tela, ele vai ignorar aqui pois cria de novo. O nome deve ser propagado até aqui.
             var branchNamingService = new BranchNamingService();
             var branchName = branchNamingService.CreateMergeBranchName(task); 
 
-            var mergeBranch = git.CreateBranch(branchName);
+            git.CreateBranch(branchName);
             return git.Checkout(branchName);
         }
 
-        private Branch CreateTaskBranch(Task task, Git git)
+        private static Branch CreateTaskBranch(Task task, Git git)
         {
             // TODO: Se o cara alterar o nome do branch na tela, ele vai ignorar aqui pois cria de novo. O nome deve ser propagado até aqui. 
             var branchNamingService = new BranchNamingService();
             var branchName = branchNamingService.CreateDevelopmentBranchName(task); 
 
-            var taskBranch = git.CreateBranch(branchName);
+            git.CreateBranch(branchName);
             return git.Checkout(branchName);
         }
 
-        private IDbConnection OpenConnection()
+        private static IDbConnection OpenConnection()
         {
             const string connectionString = "ConnectionString";
 

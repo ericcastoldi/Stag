@@ -38,6 +38,7 @@
             this.lblMergeBranch = new System.Windows.Forms.Label();
             this.txtDevelopmentBranch = new System.Windows.Forms.TextBox();
             this.lblDevelopmentBranch = new System.Windows.Forms.Label();
+            this.btnSave = new System.Windows.Forms.Button();
             this.grpGit.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -128,11 +129,22 @@
             this.lblDevelopmentBranch.TabIndex = 0;
             this.lblDevelopmentBranch.Text = "Branch de desenvolvimento";
             // 
+            // btnSave
+            // 
+            this.btnSave.Location = new System.Drawing.Point(15, 304);
+            this.btnSave.Name = "btnSave";
+            this.btnSave.Size = new System.Drawing.Size(75, 23);
+            this.btnSave.TabIndex = 4;
+            this.btnSave.Text = "Salvar";
+            this.btnSave.UseVisualStyleBackColor = true;
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1059, 773);
+            this.Controls.Add(this.btnSave);
             this.Controls.Add(this.grpGit);
             this.Controls.Add(this.cmbTasks);
             this.Controls.Add(this.lblTasks);
@@ -158,6 +170,7 @@
         private System.Windows.Forms.Label lblMergeBranch;
         private System.Windows.Forms.Button btnCreateMergeBranch;
         private System.Windows.Forms.Button btnCreateDevelopmentBranch;
+        private System.Windows.Forms.Button btnSave;
     }
 }
 

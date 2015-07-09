@@ -22,6 +22,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>ExtendedDesignGuidelineRules.ruleset</CodeAnalysisRuleSet>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -55,6 +56,10 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.IO.Abstractions, Version=2.0.0.115, Culture=neutral, PublicKeyToken=d480b5b72fb413da, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.IO.Abstractions.2.0.0.115\lib\net40\System.IO.Abstractions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -65,7 +70,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Configuration\ISettings.cs" />
     <Compile Include="Configuration\Settings.cs" />
+    <Compile Include="GlobalSuppressions.cs" />
     <Compile Include="Main.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -80,8 +87,10 @@
     <Compile Include="Service\TaskService.cs" />
     <Compile Include="SourceControl\Git.cs" />
     <Compile Include="SourceControl\GitException.cs" />
+    <Compile Include="Storage\IJsonSerializer.cs" />
+    <Compile Include="Storage\JsonSerializer.cs" />
     <Compile Include="Storage\Warehouse.cs" />
-    <Compile Include="Util\StringExtensions.cs" />
+    <Compile Include="Utility\StringExtensions.cs" />
     <EmbeddedResource Include="Main.resx">
       <DependentUpon>Main.cs</DependentUpon>
     </EmbeddedResource>

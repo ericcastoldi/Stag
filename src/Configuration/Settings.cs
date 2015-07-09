@@ -2,7 +2,7 @@
 
 namespace Stag.Configuration
 {
-    public class Settings : JsonConfiguration
+    internal class Settings : JsonConfiguration, ISettings
     {
         public string Workspace { get; set; }
 

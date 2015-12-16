@@ -1,5 +1,5 @@
 ﻿using Stag.Configuration;
-using Stag.Model;
+using Stag.Tasks;
 using Stag.Utility;
 using System;
 
@@ -8,6 +8,7 @@ namespace Stag.Service
     public class BranchNamingService
     {
         private Settings _settings;
+
         public BranchNamingService()
         {
             _settings = new Settings();
@@ -31,7 +32,7 @@ namespace Stag.Service
             }
 
             if (developmentBranchName.Contains("/"))
-            { 
+            {
                 developmentBranchName = developmentBranchName.Split('/')[1];
             }
 
@@ -40,7 +41,7 @@ namespace Stag.Service
 
         public string CreateDevelopmentBranchName(Task task)
         {
-            if(task == null 
+            if (task == null
                 || (string.IsNullOrWhiteSpace(task.Id)
                     || string.IsNullOrWhiteSpace(task.Title)))
             {

@@ -1,5 +1,4 @@
-﻿
-namespace Stag.Model
+﻿namespace Stag.Tasks
 {
     public class Task
     {
@@ -7,7 +6,6 @@ namespace Stag.Model
         {
             this.Id = id;
             this.Title = title;
-            this.State = TaskState.NotStarted;
         }
 
         public string Id { get; set; }
@@ -15,10 +13,6 @@ namespace Stag.Model
         public string Title { get; set; }
 
         public string DevelopmentBranchName { get; set; }
-
-        public string MergeBranchName { get; set; }
-
-        public TaskState State { get; set; }
 
         public override string ToString()
         {

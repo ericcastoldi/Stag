@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Stag.Configuration
+﻿namespace Stag.Configuration
 {
     internal interface ISettings
     {

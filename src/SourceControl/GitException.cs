@@ -1,9 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Runtime.Serialization;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Stag.SourceControl
 {
@@ -11,14 +7,13 @@ namespace Stag.SourceControl
     public class GitException : InvalidOperationException
     {
         public GitException(string shortMessage, Exception innerException)
-            :base(shortMessage, innerException)
+            : base(shortMessage, innerException)
         {
-
         }
+
         public GitException()
             : base()
         {
-
         }
 
         protected GitException(SerializationInfo serializationInfo, StreamingContext streamingContext)
@@ -29,7 +24,6 @@ namespace Stag.SourceControl
         public GitException(string shortMessage)
             : this(shortMessage, (string)null)
         {
-
         }
 
         public GitException(string shortMessage, string longMessage)

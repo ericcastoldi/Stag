@@ -1,5 +1,4 @@
-﻿
-namespace Stag.Storage
+﻿namespace Stag.Storage
 {
     internal interface IJsonSerializer
     {

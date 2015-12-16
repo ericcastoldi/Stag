@@ -1,8 +1,8 @@
-﻿using Stag.Model;
-using Stag.Service;
+﻿using Stag.Service;
 using Stag.Storage;
+using Stag.Tasks;
 using System;
-using System.Linq;
+using System.IO.Abstractions;
 using System.Windows.Forms;
 
 namespace Stag
@@ -19,15 +19,6 @@ namespace Stag
 
         private void Main_Load(object sender, EventArgs e)
         {
-            LoadMyTasks();
-        }
-
-        private void LoadMyTasks()
-        {
-            var taskService = new TaskService();
-
-            var tasks = taskService.MyTasks();
-            cmbTasks.Items.AddRange(tasks.ToArray());
         }
 
         private Task GetSelectedTask()
@@ -43,7 +34,6 @@ namespace Stag
             var namingService = new BranchNamingService();
 
             txtDevelopmentBranch.Text = task.DevelopmentBranchName ?? namingService.CreateDevelopmentBranchName(task);
-            txtMergeBranch.Text = task.MergeBranchName ?? namingService.CreateMergeBranchName(txtDevelopmentBranch.Text);
 
             _currentTask = task;
         }
@@ -60,7 +50,7 @@ namespace Stag
         private void btnCreateDevelopmentBranch_Click(object sender, EventArgs e)
         {
             var taskIndex = cmbTasks.SelectedIndex;
-            var task = cmbTasks.Items[taskIndex] as Stag.Model.Task;
+            var task = cmbTasks.Items[taskIndex] as Stag.Tasks.Task;
 
             var taskService = new TaskService();
             taskService.StartWork(task);
@@ -69,7 +59,7 @@ namespace Stag
         private void btnCreateMergeBranch_Click(object sender, EventArgs e)
         {
             var taskIndex = cmbTasks.SelectedIndex;
-            var task = cmbTasks.Items[taskIndex] as Stag.Model.Task;
+            var task = cmbTasks.Items[taskIndex] as Stag.Tasks.Task;
 
             var taskService = new TaskService();
             taskService.Merge(task);
@@ -80,6 +70,38 @@ namespace Stag
             // TODO: Implementar regra de persistencia no TaskService
             var warehouse = new Warehouse<Task>();
             warehouse.Store(_currentTask);
+        }
+
+        private void btnGenerateXsd_Click(object sender, EventArgs e)
+        {
+            btnGenerateXsd.Enabled = false;
+
+            var xsdService = new XsdWrapperService();
+            var messages = xsdService.GenerateClasses(txtXsdDirectory.Text, txtXsdNamespace.Text, ckbTryRecoverDsigErrors.Checked);
+
+            var output = string.Join("\r\n", messages);
+
+            MessageBox.Show(string.IsNullOrWhiteSpace(output) ? "Classes geradas com sucesso!" : output);
+
+            TryEnableBtnGenerateXsd();
+        }
+
+        private void txtXsdDirectory_Leave(object sender, EventArgs e)
+        {
+            TryEnableBtnGenerateXsd();
+        }
+
+        private void txtXsdNamespace_Leave(object sender, EventArgs e)
+        {
+            TryEnableBtnGenerateXsd();
+        }
+
+        private void TryEnableBtnGenerateXsd()
+        {
+            var fileSystem = new FileSystem();
+            bool validXsdDirectory = !string.IsNullOrWhiteSpace(txtXsdDirectory.Text) && fileSystem.Directory.Exists(txtXsdDirectory.Text);
+
+            btnGenerateXsd.Enabled = validXsdDirectory && (!string.IsNullOrWhiteSpace(txtXsdNamespace.Text));
         }
     }
 }

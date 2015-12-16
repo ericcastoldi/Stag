@@ -1,7 +1,7 @@
 ﻿{
     "Username" : "Eric.Castoldi",
-    "Email" : "eric.castoldi@email.com.br",
-    "Password" : "password",
+    "Email" : "mail@server.com.br",
+    "Password" : "pwd",
     "RemoteUrl" : "http://url-to-remote/repo.git",
 	"Workspace" : "repo-path",
     "WorkBranch" : "work-branch-name" ,
@@ -13,4 +13,5 @@
 	"GitLabApproverUsername" : "Eric.Castoldi",
 	"StorageBasePath" : "C:\\Stag",
 	"MiscTaskId": "342365"
+
 }

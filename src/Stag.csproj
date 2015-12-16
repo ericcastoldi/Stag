@@ -23,6 +23,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>ExtendedDesignGuidelineRules.ruleset</CodeAnalysisRuleSet>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -32,6 +33,9 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Resources\Bolt.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="fx.configuration, Version=0.4.0.0, Culture=neutral, PublicKeyToken=d6b5ff1ed8812a28, processorArchitecture=MSIL">
@@ -46,6 +50,8 @@
       <HintPath>..\packages\LibGit2Sharp.0.21.0.176\lib\net40\LibGit2Sharp.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.Build" />
+    <Reference Include="Microsoft.Build.Framework" />
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
       <HintPath>..\packages\Newtonsoft.Json.6.0.6\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
@@ -70,6 +76,20 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Build\AsyncOutputParserBase.cs" />
+    <Compile Include="Build\AsyncProcessRun.cs" />
+    <Compile Include="Build\AsyncStandardErrorParser.cs" />
+    <Compile Include="Build\BuildAgent.cs" />
+    <Compile Include="Build\IAsyncOutputParser.cs" />
+    <Compile Include="Build\IOutputParser.cs" />
+    <Compile Include="Build\IProcessRun.cs" />
+    <Compile Include="Build\RunInfo.cs" />
+    <Compile Include="Build\SimpleProcessRun.cs" />
+    <Compile Include="Build\SolutionConfiguration.cs" />
+    <Compile Include="Build\StandardErrorParser.cs" />
+    <Compile Include="Build\Summary.cs" />
+    <Compile Include="Build\TestConfiguration.cs" />
+    <Compile Include="Build\TestOutputParser.cs" />
     <Compile Include="Configuration\ISettings.cs" />
     <Compile Include="Configuration\Settings.cs" />
     <Compile Include="GlobalSuppressions.cs" />
@@ -79,17 +99,25 @@
     <Compile Include="Main.Designer.cs">
       <DependentUpon>Main.cs</DependentUpon>
     </Compile>
-    <Compile Include="Model\Task.cs" />
-    <Compile Include="Model\TaskState.cs" />
+    <Compile Include="Storage\HelpnetConnectionManager.cs" />
+    <Compile Include="Storage\IConnectionManager.cs" />
+    <Compile Include="Tasks\ITaskProvider.cs" />
+    <Compile Include="Tasks\LocalTaskProvider.cs" />
+    <Compile Include="Tasks\Task.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Service\BranchNamingService.cs" />
+    <Compile Include="Service\ClassSplitterService.cs" />
     <Compile Include="Service\TaskService.cs" />
+    <Compile Include="Service\XsdWrapperService.cs" />
     <Compile Include="SourceControl\Git.cs" />
     <Compile Include="SourceControl\GitException.cs" />
     <Compile Include="Storage\IJsonSerializer.cs" />
+    <Compile Include="Storage\IWarehouse.cs" />
     <Compile Include="Storage\JsonSerializer.cs" />
     <Compile Include="Storage\Warehouse.cs" />
+    <Compile Include="Tasks\HelpnetTaskProvider.cs" />
+    <Compile Include="Tasks\TaskProvider.cs" />
     <Compile Include="Utility\StringExtensions.cs" />
     <EmbeddedResource Include="Main.resx">
       <DependentUpon>Main.cs</DependentUpon>
@@ -114,6 +142,11 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\Bolt.ico" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\xsd.exe">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">

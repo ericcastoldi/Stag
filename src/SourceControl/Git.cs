@@ -1,10 +1,7 @@
 ﻿using LibGit2Sharp;
 using Stag.Configuration;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
 
 namespace Stag.SourceControl
 {
@@ -15,6 +12,12 @@ namespace Stag.SourceControl
         public Git()
         {
             _settings = new Settings();
+        }
+
+        public void Clone(string repo, string branchName)
+        {
+            var path = Path.Combine(_settings.StorageBasePath, "workspace");
+            Repository.Clone(repo, path, new CloneOptions() { BranchName = branchName, CredentialsProvider = BuildCredentials });
         }
 
         public void Merge(string targetBranch)

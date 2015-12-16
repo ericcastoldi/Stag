@@ -21,7 +21,7 @@ namespace Stag.Configuration
         public string MergeBranchPrefix { get; set; }
 
         public string GsbdBranchPrefix { get; set; }
-        
+
         public string GitLabPrivateToken { get; set; }
 
         public string StorageBasePath { get; set; }

@@ -13,12 +13,12 @@ namespace Stag.Utility
 
             string str = phrase.Trim().RemoveAccent().ToLower();
 
-            // invalid chars           
+            // invalid chars
             str = Regex.Replace(str, @"[^a-z0-9\s-]", "");
-            // convert multiple spaces into one space   
-            str = Regex.Replace(str, @"\s+", " ").Trim(); 
-            
-            str = Regex.Replace(str, @"\s", "-"); // hyphens   
+            // convert multiple spaces into one space
+            str = Regex.Replace(str, @"\s+", " ").Trim();
+
+            str = Regex.Replace(str, @"\s", "-"); // hyphens
 
             str = Regex.Replace(str, @"([-_]){2,}", "$1", RegexOptions.Compiled);
 

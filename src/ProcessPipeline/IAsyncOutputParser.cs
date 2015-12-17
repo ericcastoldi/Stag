@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Stag.Build
+namespace Stag.ProcessPipeline
 {
     public interface IAsyncOutputParser : IOutputParser
     {

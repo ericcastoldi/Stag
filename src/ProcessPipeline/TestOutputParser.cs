@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Stag.Build
+namespace Stag.ProcessPipeline
 {
     public class TestOutputParser : AsyncOutputParserBase
     {

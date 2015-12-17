@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 
-namespace Stag.Build
+namespace Stag.ProcessPipeline
 {
     public class SimpleProcessRun : IProcessRun
     {

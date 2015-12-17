@@ -1,4 +1,4 @@
-﻿namespace Stag.Build
+﻿namespace Stag.ProcessPipeline
 {
     public interface IOutputParser
     {

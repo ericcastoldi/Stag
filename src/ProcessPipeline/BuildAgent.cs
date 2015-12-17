@@ -3,7 +3,7 @@ using Microsoft.Build.Execution;
 using System.Collections.Generic;
 using System.Globalization;
 
-namespace Stag.Build
+namespace Stag.ProcessPipeline
 {
     public class BuildAgent
     {

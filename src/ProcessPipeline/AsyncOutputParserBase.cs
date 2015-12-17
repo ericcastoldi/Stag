@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Stag.Build
+namespace Stag.ProcessPipeline
 {
     public abstract class AsyncOutputParserBase : IAsyncOutputParser
     {

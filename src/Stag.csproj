@@ -76,21 +76,21 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Build\AsyncOutputParserBase.cs" />
-    <Compile Include="Build\AsyncProcessRun.cs" />
-    <Compile Include="Build\AsyncStandardErrorParser.cs" />
-    <Compile Include="Build\BuildAgent.cs" />
-    <Compile Include="Build\EmptyOutputParser.cs" />
-    <Compile Include="Build\IAsyncOutputParser.cs" />
-    <Compile Include="Build\IOutputParser.cs" />
-    <Compile Include="Build\IProcessRun.cs" />
-    <Compile Include="Build\RunInfo.cs" />
-    <Compile Include="Build\SimpleProcessRun.cs" />
-    <Compile Include="Build\SolutionConfiguration.cs" />
-    <Compile Include="Build\StandardErrorParser.cs" />
-    <Compile Include="Build\Summary.cs" />
-    <Compile Include="Build\TestConfiguration.cs" />
-    <Compile Include="Build\TestOutputParser.cs" />
+    <Compile Include="ProcessPipeline\AsyncOutputParserBase.cs" />
+    <Compile Include="ProcessPipeline\AsyncProcessRun.cs" />
+    <Compile Include="ProcessPipeline\AsyncStandardErrorParser.cs" />
+    <Compile Include="ProcessPipeline\BuildAgent.cs" />
+    <Compile Include="ProcessPipeline\EmptyOutputParser.cs" />
+    <Compile Include="ProcessPipeline\IAsyncOutputParser.cs" />
+    <Compile Include="ProcessPipeline\IOutputParser.cs" />
+    <Compile Include="ProcessPipeline\IProcessRun.cs" />
+    <Compile Include="ProcessPipeline\RunInfo.cs" />
+    <Compile Include="ProcessPipeline\SimpleProcessRun.cs" />
+    <Compile Include="ProcessPipeline\SolutionConfiguration.cs" />
+    <Compile Include="ProcessPipeline\StandardErrorParser.cs" />
+    <Compile Include="ProcessPipeline\Summary.cs" />
+    <Compile Include="ProcessPipeline\TestConfiguration.cs" />
+    <Compile Include="ProcessPipeline\TestOutputParser.cs" />
     <Compile Include="Configuration\ISettings.cs" />
     <Compile Include="Configuration\Settings.cs" />
     <Compile Include="GlobalSuppressions.cs" />

@@ -2,6 +2,6 @@
 {
     public interface IProcessRun
     {
-        Summary Run(RunInfo buildInfo);
+        Summary Run(RunInfo runInfo);
     }
 }

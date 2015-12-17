@@ -2,12 +2,7 @@
 using Stag.Configuration;
 using Stag.Storage;
 using Stag.Tasks;
-using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace Stag.Test.Tasks

@@ -14,40 +14,46 @@ namespace Stag.Build
             _standardErrorParser = standardErrorParser;
         }
 
-        public Summary Run(RunInfo buildInfo)
+        public Summary Run(RunInfo runInfo)
         {
-            if (buildInfo == null)
-                throw new ArgumentNullException("buildInfo");
+            if (runInfo == null)
+                throw new ArgumentNullException("runInfo");
 
-            if (string.IsNullOrWhiteSpace(buildInfo.Command))
-                throw new ArgumentException("O BuildInfo deve ter um comando válido.");
+            if (string.IsNullOrWhiteSpace(runInfo.Command))
+                throw new ArgumentException("O RunInfo deve ter um comando válido.");
 
-            var processInfo = new ProcessStartInfo()
+            using (var proc = new Process())
             {
-                FileName = buildInfo.Command,
-                Arguments = buildInfo.Args,
+                proc.StartInfo = CreateProcessStartInfo(runInfo);
+
+                proc.OutputDataReceived += (sender, eventArgs) => { _standardOutputParser.Parse(eventArgs.Data); };
+                proc.ErrorDataReceived += (sender, eventArgs) => { _standardErrorParser.Parse(eventArgs.Data); };
+
+                proc.Start();
+                proc.BeginErrorReadLine();
+                proc.BeginOutputReadLine();
+                proc.WaitForExit();
+
+                if (!_standardErrorParser.OverallSuccess)
+                {
+                    return _standardErrorParser.OverallResult;
+                }
+
+                return _standardOutputParser.OverallResult;
+            }
+        }
+
+        private static ProcessStartInfo CreateProcessStartInfo(RunInfo runInfo)
+        {
+            return new ProcessStartInfo()
+            {
+                FileName = runInfo.Command,
+                Arguments = runInfo.Args,
                 CreateNoWindow = true,
                 UseShellExecute = false,
                 RedirectStandardError = true,
                 RedirectStandardOutput = true,
             };
-
-            var proc = new Process() { StartInfo = processInfo };
-
-            proc.OutputDataReceived += (sender, eventArgs) => { _standardOutputParser.Parse(eventArgs.Data); };
-            proc.ErrorDataReceived += (sender, eventArgs) => { _standardErrorParser.Parse(eventArgs.Data); };
-
-            proc.Start();
-            proc.BeginErrorReadLine();
-            proc.BeginOutputReadLine();
-            proc.WaitForExit();
-
-            if (!_standardErrorParser.OverallSuccess)
-            {
-                return _standardErrorParser.OverallResult;
-            }
-
-            return _standardOutputParser.OverallResult;
         }
     }
 }

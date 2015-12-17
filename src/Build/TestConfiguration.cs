@@ -1,4 +1,6 @@
-﻿namespace Stag.Build
+﻿using System.Globalization;
+
+namespace Stag.Build
 {
     public class TestConfiguration
     {
@@ -30,7 +32,7 @@
         public RunInfo CreateRunInfo()
         {
             var command = this.VsTestPath;
-            var args = string.Format("{0}{1}\\bin\\Debug\\{1}.dll /Settings:{0}{1}\\{2} {3}", this.SolutionConfiguration.SolutionPath, this.TestProjectName, this.TestConfigurationFileName, VSTEST_ARGS);
+            var args = string.Format(CultureInfo.InvariantCulture, "{0}{1}\\bin\\Debug\\{1}.dll /Settings:{0}{1}\\{2} {3}", this.SolutionConfiguration.SolutionPath, this.TestProjectName, this.TestConfigurationFileName, VSTEST_ARGS);
 
             return new RunInfo(command, args);
         }

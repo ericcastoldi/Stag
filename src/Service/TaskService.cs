@@ -4,6 +4,7 @@ using Stag.SourceControl;
 using Stag.Storage;
 using Stag.Tasks;
 using System;
+using System.Globalization;
 using System.Linq;
 using GitLab = NGitLab;
 using GitLabModels = NGitLab.Models;
@@ -12,6 +13,8 @@ namespace Stag.Service
 {
     public class TaskService
     {
+        private static CultureInfo DefaultCulture = new CultureInfo("pt-BR");
+
         private readonly ISettings _settings;
         private readonly IWarehouse<Task> _warehouse;
 
@@ -26,23 +29,47 @@ namespace Stag.Service
             _settings = settings;
         }
 
-        public void StartWork(string taskTitle, string taskId)
+        public ServiceResult CreateTaskBranch(Task task, string branchName)
         {
-            StartWork(new Task(taskTitle, taskId));
-        }
-
-        public void StartWork(Task task)
-        {
-            if (task == null || (string.IsNullOrWhiteSpace(task.Id) || string.IsNullOrWhiteSpace(task.Title)))
+            if (task == null)
                 throw new ArgumentNullException("task");
 
-            var git = new Git();
-            UpdateWorkBranch(git);
-            var taskBranch = CreateTaskBranch(task, git);
+            if (string.IsNullOrWhiteSpace(branchName))
+                throw new ArgumentNullException("branchName");
 
-            task.DevelopmentBranchName = taskBranch.Name;
+            try
+            {
+                var resultDescription = string.Format(DefaultCulture, "Branch '{0}' criado com sucesso!", branchName);
 
-            _warehouse.Store(task);
+                var git = new Git();
+                git.Checkout(_settings.WorkBranch);
+                git.UpdateCurrentBranch();
+
+                try
+                {
+                    git.CreateBranch(branchName);
+                }
+                catch (NameConflictException)
+                {
+                    resultDescription = string.Format(DefaultCulture, "O branch '{0}' já existe. Feito checkout do branch '{0}'.", branchName);
+                }
+                finally
+                {
+                    git.Checkout(branchName);
+                }
+
+                task.DevelopmentBranchName = branchName;
+                _warehouse.Store(task);
+
+                return new ServiceResult(true, resultDescription);
+            }
+            catch (MergeConflictException)
+            {
+                var message = string.Format(DefaultCulture, "Ocorreram conflitos ao tentar atualizar o branch '{0}'. Resolva os conflitos em seu workspace ({1}) e tente novamente.",
+                    _settings.WorkBranch, _settings.Workspace);
+
+                return new ServiceResult(false, message);
+            }
         }
 
         public void Merge(Task task)
@@ -77,7 +104,7 @@ namespace Stag.Service
 
             var mr = new GitLabModels.MergeRequestCreate()
             {
-                Title = string.Format("{0} - {1}", task.Id, task.Title),
+                Title = task.ToString(),
                 TargetBranch = _settings.WorkBranch,
                 AssigneeId = approver.Id
             };
@@ -96,18 +123,8 @@ namespace Stag.Service
 
             if (mergeResult.Status == MergeStatus.Conflicts)
             {
-                throw new GitException(string.Format("O workspace {0} contém modificações que conflitam com o Pull. Limpe seu repositório e tente novamente.", _settings.Workspace));
+                throw new GitException(string.Format(DefaultCulture, "O workspace {0} contém modificações que conflitam com o Pull. Limpe seu repositório e tente novamente.", _settings.Workspace));
             }
-        }
-
-        private static Branch CreateTaskBranch(Task task, Git git)
-        {
-            // TODO: Se o cara alterar o nome do branch na tela, ele vai ignorar aqui pois cria de novo. O nome deve ser propagado até aqui.
-            var branchNamingService = new BranchNamingService();
-            var branchName = branchNamingService.CreateDevelopmentBranchName(task);
-
-            git.CreateBranch(branchName);
-            return git.Checkout(branchName);
         }
     }
 }

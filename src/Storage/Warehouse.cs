@@ -1,6 +1,7 @@
 ﻿using Humanizer;
 using Stag.Configuration;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO.Abstractions;
 using System.Linq;
 using System.Text;
@@ -20,7 +21,7 @@ namespace Stag.Storage
 
         internal Warehouse(IFileSystem fileSystem, IJsonSerializer serializer, ISettings settings)
         {
-            var filename = string.Format("{0}-{1}.json", settings.Username, typeof(T).Name.ToLower().Pluralize());
+            var filename = string.Format(CultureInfo.InvariantCulture, "{0}-{1}.json", settings.Username, typeof(T).Name.ToLower(CultureInfo.InvariantCulture).Pluralize());
 
             _fileSystem = fileSystem;
             _serializer = serializer;

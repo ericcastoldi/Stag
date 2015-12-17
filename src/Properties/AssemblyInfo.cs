@@ -2,16 +2,17 @@
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
+using System.Resources;
 
 // General Information about an assembly is controlled through the following
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyTitle("Stag")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyDescription("Auxiliar dos processos de desenvolvimento do dia-a-dia. Cria branches, compila, roda testes, cria Merge Requests, faz café e busca cuca.")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Microsoft")]
+[assembly: AssemblyCompany("Stag")]
 [assembly: AssemblyProduct("Stag")]
-[assembly: AssemblyCopyright("Copyright © Microsoft 2015")]
+[assembly: AssemblyCopyright("")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
@@ -39,3 +40,4 @@ using System.Runtime.InteropServices;
 [assembly: CLSCompliant(false)]
 [assembly: InternalsVisibleTo("Stag.Test")]
 [assembly: InternalsVisibleTo("DynamicProxyGenAssembly2")]
+[assembly: NeutralResourcesLanguageAttribute("pt-BR")]

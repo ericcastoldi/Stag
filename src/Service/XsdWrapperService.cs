@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Globalization;
 using System.IO.Abstractions;
 using System.Reflection;
 
@@ -64,7 +65,7 @@ namespace Stag.Service
             var processInfo = ConfigureProcess(schemasDirectory);
 
             var dsigSchema = _fileSystem.Path.Combine(schemasDirectory, DigitalSignatureSchema);
-            processInfo.Arguments = string.Format("\"{0}\" \"{1}\" /c /order /n:{2} /nologo /o:{3}", dsigSchema, fileName, classesNamespace, OutputDirectoryName);
+            processInfo.Arguments = string.Format(CultureInfo.InvariantCulture, "\"{0}\" \"{1}\" /c /order /n:{2} /nologo /o:{3}", dsigSchema, fileName, classesNamespace, OutputDirectoryName);
             var process = _runner.Start(processInfo);
 
             var retryMessages = new List<String>();

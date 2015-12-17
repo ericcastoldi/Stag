@@ -8,6 +8,11 @@ namespace Stag.Tasks
         private readonly ITaskProvider _localProvider;
         private readonly ITaskProvider _helpnetProvider;
 
+        public TaskProvider()
+            : this(new HelpnetTaskProvider(), new LocalTaskProvider())
+        {
+        }
+
         public TaskProvider(ITaskProvider helpnetProvider, ITaskProvider localProvider)
         {
             _localProvider = localProvider;

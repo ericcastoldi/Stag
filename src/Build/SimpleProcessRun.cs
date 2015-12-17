@@ -5,8 +5,8 @@ namespace Stag.Build
 {
     public class SimpleProcessRun : IProcessRun
     {
-        private IOutputParser _standardOutputParser;
-        private IOutputParser _standardErrorParser;
+        private readonly IOutputParser _standardOutputParser;
+        private readonly IOutputParser _standardErrorParser;
 
         public SimpleProcessRun(IOutputParser standardOutputParser, IOutputParser standardErrorParser)
         {
@@ -14,37 +14,40 @@ namespace Stag.Build
             _standardErrorParser = standardErrorParser;
         }
 
-        public Summary Run(RunInfo buildInfo)
+        public Summary Run(RunInfo runInfo)
         {
-            if (buildInfo == null)
-                throw new ArgumentNullException("buildInfo");
+            if (runInfo == null)
+                throw new ArgumentNullException("runInfo");
 
-            if (string.IsNullOrWhiteSpace(buildInfo.Command))
-                throw new ArgumentException("O BuildInfo deve ter um comando válido.");
+            if (string.IsNullOrWhiteSpace(runInfo.Command))
+                throw new ArgumentException("O RunInfo deve ter um comando válido.");
 
-            var processInfo = new ProcessStartInfo()
+            using (var msbuild = new Process())
             {
-                FileName = buildInfo.Command,
-                Arguments = buildInfo.Args,
-                CreateNoWindow = true,
-                UseShellExecute = false,
-                RedirectStandardError = true,
-                RedirectStandardOutput = true,
-            };
+                var processInfo = new ProcessStartInfo()
+                {
+                    FileName = runInfo.Command,
+                    Arguments = runInfo.Args,
+                    CreateNoWindow = true,
+                    UseShellExecute = false,
+                    RedirectStandardError = true,
+                    RedirectStandardOutput = true,
+                };
 
-            var msbuild = new Process() { StartInfo = processInfo };
-            msbuild.Start();
+                msbuild.StartInfo = processInfo;
+                msbuild.Start();
 
-            var stdout = msbuild.StandardOutput.ReadToEnd();
-            var stderr = msbuild.StandardError.ReadToEnd();
+                var stdout = msbuild.StandardOutput.ReadToEnd();
+                var stderr = msbuild.StandardError.ReadToEnd();
 
-            var standardErrorOut = _standardErrorParser.Parse(stderr);
-            if (!standardErrorOut.Success)
-            {
-                return standardErrorOut;
+                var standardErrorOut = _standardErrorParser.Parse(stderr);
+                if (!standardErrorOut.Success)
+                {
+                    return standardErrorOut;
+                }
+
+                return _standardOutputParser.Parse(stdout);
             }
-
-            return _standardOutputParser.Parse(stdout);
         }
     }
 }

@@ -1,23 +1,26 @@
 ﻿using LibGit2Sharp;
 using Stag.Configuration;
 using System;
-using System.IO;
 
 namespace Stag.SourceControl
 {
     public class Git
     {
-        private Settings _settings;
+        private ISettings _settings;
 
         public Git()
+            : this(new Settings())
         {
-            _settings = new Settings();
+        }
+
+        internal Git(ISettings settings)
+        {
+            _settings = settings;
         }
 
         public void Clone(string repo, string branchName)
         {
-            var path = Path.Combine(_settings.StorageBasePath, "workspace");
-            Repository.Clone(repo, path, new CloneOptions() { BranchName = branchName, CredentialsProvider = BuildCredentials });
+            Repository.Clone(repo, _settings.Workspace, new CloneOptions() { BranchName = branchName, CredentialsProvider = BuildCredentials });
         }
 
         public void Merge(string targetBranch)

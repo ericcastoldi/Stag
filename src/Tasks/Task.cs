@@ -1,4 +1,6 @@
-﻿namespace Stag.Tasks
+﻿using System.Globalization;
+
+namespace Stag.Tasks
 {
     public class Task
     {
@@ -16,7 +18,7 @@
 
         public override string ToString()
         {
-            return string.Format("{0} - {1}", this.Id, this.Title);
+            return string.Format(CultureInfo.InvariantCulture, "{0} - {1}", this.Id, this.Title);
         }
     }
 }

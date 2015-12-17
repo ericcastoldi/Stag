@@ -1,9 +1,12 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Globalization;
+using System.Text.RegularExpressions;
 
 namespace Stag.Utility
 {
     public static class StringExtensions
     {
+        private static CultureInfo DefaultCulture = new CultureInfo("pt-BR");
+
         public static string GenerateSlug(this string phrase)
         {
             if (string.IsNullOrWhiteSpace(phrase))
@@ -11,7 +14,7 @@ namespace Stag.Utility
                 return string.Empty;
             }
 
-            string str = phrase.Trim().RemoveAccent().ToLower();
+            string str = phrase.Trim().RemoveAccent().ToLower(DefaultCulture);
 
             // invalid chars
             str = Regex.Replace(str, @"[^a-z0-9\s-]", "");

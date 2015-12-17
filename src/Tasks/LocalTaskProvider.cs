@@ -8,6 +8,11 @@ namespace Stag.Tasks
     {
         private readonly IWarehouse<Task> _warehouse;
 
+        public LocalTaskProvider()
+            : this(new Warehouse<Task>())
+        {
+        }
+
         public LocalTaskProvider(IWarehouse<Task> warehouse)
         {
             _warehouse = warehouse;

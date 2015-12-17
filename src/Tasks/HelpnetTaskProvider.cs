@@ -2,6 +2,7 @@
 using Stag.Storage;
 using System.Collections.Generic;
 using System.Data;
+using System.Globalization;
 
 namespace Stag.Tasks
 {
@@ -50,7 +51,7 @@ namespace Stag.Tasks
 
         private string AddQueryParameters(IDbCommand cmd, string query)
         {
-            cmd.Parameters.Add(_connectionManager.CreateParameter("usuario", _settings.Username.ToLower()));
+            cmd.Parameters.Add(_connectionManager.CreateParameter("usuario", _settings.Username.ToLower(CultureInfo.InvariantCulture)));
 
             if (!string.IsNullOrWhiteSpace(_settings.MiscTaskId))
             {

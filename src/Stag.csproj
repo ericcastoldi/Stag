@@ -22,7 +22,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
-    <CodeAnalysisRuleSet>ExtendedDesignGuidelineRules.ruleset</CodeAnalysisRuleSet>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
     <RunCodeAnalysis>true</RunCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
@@ -80,6 +80,7 @@
     <Compile Include="Build\AsyncProcessRun.cs" />
     <Compile Include="Build\AsyncStandardErrorParser.cs" />
     <Compile Include="Build\BuildAgent.cs" />
+    <Compile Include="Build\EmptyOutputParser.cs" />
     <Compile Include="Build\IAsyncOutputParser.cs" />
     <Compile Include="Build\IOutputParser.cs" />
     <Compile Include="Build\IProcessRun.cs" />
@@ -99,6 +100,7 @@
     <Compile Include="Main.Designer.cs">
       <DependentUpon>Main.cs</DependentUpon>
     </Compile>
+    <Compile Include="Service\ServiceResult.cs" />
     <Compile Include="Storage\HelpnetConnectionManager.cs" />
     <Compile Include="Storage\IConnectionManager.cs" />
     <Compile Include="Tasks\ITaskProvider.cs" />

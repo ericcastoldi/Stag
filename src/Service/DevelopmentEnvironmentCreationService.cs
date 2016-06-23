@@ -50,11 +50,15 @@ namespace Stag.Service
             {
                 if (string.IsNullOrWhiteSpace(_version) || string.IsNullOrWhiteSpace(_branch) || string.IsNullOrWhiteSpace(_taskBranchName))
                 {
-                    //MessageBox.Show("Informe a versão e o branch de origem!", "Criação de ambiente...", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     throw new InvalidOperationException("Informe a versão, o branch de origem e o nome do branch de feature a ser criado.");
                 }
 
-                var git = new Git();
+                var settings = new Settings();
+                var git = new Git(settings);
+
+                var currentBranch = git.GetCurrentBranch();
+                EmitMessage(string.Format("Iniciando processo de criação do ambiente de desenvolvimento. Descartando todas as alterações existentes no branch {0}, workspace {1}...", currentBranch.Name, settings.Workspace));
+                git.HardReset();
 
                 EmitMessage(string.Format("Fazendo checkout do branch {0}...", _branch));
                 git.Checkout(_branch);
@@ -67,8 +71,6 @@ namespace Stag.Service
 
                 EmitMessage(string.Format("Atualizando branch {0}...", "master"));
                 git.UpdateCurrentBranch();
-
-                var settings = new Settings();
 
                 this.NugetRestore(settings.Workspace);
 

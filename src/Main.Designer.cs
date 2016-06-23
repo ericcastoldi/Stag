@@ -29,43 +29,25 @@
         private void InitializeComponent()
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Main));
-            this.lblTasks = new System.Windows.Forms.Label();
-            this.cmbTasks = new System.Windows.Forms.ComboBox();
             this.grpGit = new System.Windows.Forms.GroupBox();
             this.lnkOpenVisualStudio = new System.Windows.Forms.LinkLabel();
             this.btnCreateDevelopmentBranch = new System.Windows.Forms.Button();
-            this.txtDevelopmentBranch = new System.Windows.Forms.TextBox();
-            this.lblDevelopmentBranch = new System.Windows.Forms.Label();
+            this.txtBranchName = new System.Windows.Forms.TextBox();
+            this.lblBranchName = new System.Windows.Forms.Label();
+            this.btnCleanBranches = new System.Windows.Forms.Button();
+            this.btnCreateNewEnvironment = new System.Windows.Forms.Button();
             this.grpGit.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // lblTasks
-            // 
-            this.lblTasks.AutoSize = true;
-            this.lblTasks.Location = new System.Drawing.Point(12, 15);
-            this.lblTasks.Name = "lblTasks";
-            this.lblTasks.Size = new System.Drawing.Size(43, 13);
-            this.lblTasks.TabIndex = 0;
-            this.lblTasks.Text = "Tarefas";
-            // 
-            // cmbTasks
-            // 
-            this.cmbTasks.FormattingEnabled = true;
-            this.cmbTasks.Location = new System.Drawing.Point(61, 12);
-            this.cmbTasks.Name = "cmbTasks";
-            this.cmbTasks.Size = new System.Drawing.Size(453, 21);
-            this.cmbTasks.TabIndex = 1;
-            this.cmbTasks.SelectedValueChanged += new System.EventHandler(this.cmbTasks_SelectedValueChanged);
             // 
             // grpGit
             // 
             this.grpGit.Controls.Add(this.lnkOpenVisualStudio);
             this.grpGit.Controls.Add(this.btnCreateDevelopmentBranch);
-            this.grpGit.Controls.Add(this.txtDevelopmentBranch);
-            this.grpGit.Controls.Add(this.lblDevelopmentBranch);
-            this.grpGit.Location = new System.Drawing.Point(12, 52);
+            this.grpGit.Controls.Add(this.txtBranchName);
+            this.grpGit.Controls.Add(this.lblBranchName);
+            this.grpGit.Location = new System.Drawing.Point(12, 12);
             this.grpGit.Name = "grpGit";
-            this.grpGit.Size = new System.Drawing.Size(502, 88);
+            this.grpGit.Size = new System.Drawing.Size(400, 88);
             this.grpGit.TabIndex = 3;
             this.grpGit.TabStop = false;
             this.grpGit.Text = "Git";
@@ -91,31 +73,51 @@
             this.btnCreateDevelopmentBranch.UseVisualStyleBackColor = true;
             this.btnCreateDevelopmentBranch.Click += new System.EventHandler(this.btnCreateDevelopmentBranch_Click);
             // 
-            // txtDevelopmentBranch
+            // txtBranchName
             // 
-            this.txtDevelopmentBranch.Enabled = false;
-            this.txtDevelopmentBranch.Location = new System.Drawing.Point(9, 36);
-            this.txtDevelopmentBranch.Name = "txtDevelopmentBranch";
-            this.txtDevelopmentBranch.Size = new System.Drawing.Size(301, 20);
-            this.txtDevelopmentBranch.TabIndex = 1;
+            this.txtBranchName.Enabled = false;
+            this.txtBranchName.Location = new System.Drawing.Point(9, 36);
+            this.txtBranchName.Name = "txtBranchName";
+            this.txtBranchName.Size = new System.Drawing.Size(301, 20);
+            this.txtBranchName.TabIndex = 1;
             // 
-            // lblDevelopmentBranch
+            // lblBranchName
             // 
-            this.lblDevelopmentBranch.AutoSize = true;
-            this.lblDevelopmentBranch.Location = new System.Drawing.Point(6, 20);
-            this.lblDevelopmentBranch.Name = "lblDevelopmentBranch";
-            this.lblDevelopmentBranch.Size = new System.Drawing.Size(139, 13);
-            this.lblDevelopmentBranch.TabIndex = 0;
-            this.lblDevelopmentBranch.Text = "Branch de desenvolvimento";
+            this.lblBranchName.AutoSize = true;
+            this.lblBranchName.Location = new System.Drawing.Point(6, 20);
+            this.lblBranchName.Name = "lblBranchName";
+            this.lblBranchName.Size = new System.Drawing.Size(86, 13);
+            this.lblBranchName.TabIndex = 0;
+            this.lblBranchName.Text = "Nome do branch";
+            // 
+            // btnCleanBranches
+            // 
+            this.btnCleanBranches.Location = new System.Drawing.Point(12, 106);
+            this.btnCleanBranches.Name = "btnCleanBranches";
+            this.btnCleanBranches.Size = new System.Drawing.Size(145, 23);
+            this.btnCleanBranches.TabIndex = 4;
+            this.btnCleanBranches.Text = "Limpar branches...";
+            this.btnCleanBranches.UseVisualStyleBackColor = true;
+            this.btnCleanBranches.Click += new System.EventHandler(this.btnCleanBranches_Click);
+            // 
+            // btnCreateNewEnvironment
+            // 
+            this.btnCreateNewEnvironment.Location = new System.Drawing.Point(163, 106);
+            this.btnCreateNewEnvironment.Name = "btnCreateNewEnvironment";
+            this.btnCreateNewEnvironment.Size = new System.Drawing.Size(217, 23);
+            this.btnCreateNewEnvironment.TabIndex = 5;
+            this.btnCreateNewEnvironment.Text = "Criar ambiente de desenvolvimento...";
+            this.btnCreateNewEnvironment.UseVisualStyleBackColor = true;
+            this.btnCreateNewEnvironment.Click += new System.EventHandler(this.btnCreateNewEnvironment_Click);
             // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(526, 151);
+            this.ClientSize = new System.Drawing.Size(422, 140);
+            this.Controls.Add(this.btnCreateNewEnvironment);
+            this.Controls.Add(this.btnCleanBranches);
             this.Controls.Add(this.grpGit);
-            this.Controls.Add(this.cmbTasks);
-            this.Controls.Add(this.lblTasks);
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "Main";
             this.Text = "Stag";
@@ -123,19 +125,18 @@
             this.grpGit.ResumeLayout(false);
             this.grpGit.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
 
-        private System.Windows.Forms.Label lblTasks;
-        private System.Windows.Forms.ComboBox cmbTasks;
         private System.Windows.Forms.GroupBox grpGit;
-        private System.Windows.Forms.Label lblDevelopmentBranch;
-        private System.Windows.Forms.TextBox txtDevelopmentBranch;
+        private System.Windows.Forms.Label lblBranchName;
+        private System.Windows.Forms.TextBox txtBranchName;
         private System.Windows.Forms.Button btnCreateDevelopmentBranch;
         private System.Windows.Forms.LinkLabel lnkOpenVisualStudio;
+        private System.Windows.Forms.Button btnCleanBranches;
+        private System.Windows.Forms.Button btnCreateNewEnvironment;
     }
 }
 

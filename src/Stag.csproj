@@ -50,6 +50,10 @@
       <HintPath>..\packages\LibGit2Sharp.0.21.0.176\lib\net40\LibGit2Sharp.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="LiteDB, Version=1.0.4.0, Culture=neutral, PublicKeyToken=5c2fff750805920e, processorArchitecture=MSIL">
+      <HintPath>..\packages\LiteDB.1.0.4\lib\net40\LiteDB.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.Build" />
     <Reference Include="Microsoft.Build.Framework" />
     <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
@@ -76,6 +80,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CleanBranches.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CleanBranches.Designer.cs">
+      <DependentUpon>CleanBranches.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CreateEnvironment.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CreateEnvironment.Designer.cs">
+      <DependentUpon>CreateEnvironment.cs</DependentUpon>
+    </Compile>
+    <Compile Include="CreateEnvironmentFeedback.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CreateEnvironmentFeedback.Designer.cs">
+      <DependentUpon>CreateEnvironmentFeedback.cs</DependentUpon>
+    </Compile>
     <Compile Include="ProcessPipeline\AsyncOutputParserBase.cs" />
     <Compile Include="ProcessPipeline\AsyncProcessRun.cs" />
     <Compile Include="ProcessPipeline\AsyncStandardErrorParser.cs" />
@@ -100,27 +122,25 @@
     <Compile Include="Main.Designer.cs">
       <DependentUpon>Main.cs</DependentUpon>
     </Compile>
+    <Compile Include="Service\BranchCleaningService.cs" />
+    <Compile Include="Service\DevelopmentEnvironmentCreationService.cs" />
     <Compile Include="Service\ServiceResult.cs" />
-    <Compile Include="Storage\HelpnetConnectionManager.cs" />
-    <Compile Include="Storage\IConnectionManager.cs" />
-    <Compile Include="Tasks\ITaskProvider.cs" />
-    <Compile Include="Tasks\LocalTaskProvider.cs" />
-    <Compile Include="Tasks\Task.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Service\BranchNamingService.cs" />
     <Compile Include="Service\ClassSplitterService.cs" />
-    <Compile Include="Service\TaskService.cs" />
     <Compile Include="Service\XsdWrapperService.cs" />
     <Compile Include="SourceControl\Git.cs" />
     <Compile Include="SourceControl\GitException.cs" />
-    <Compile Include="Storage\IJsonSerializer.cs" />
-    <Compile Include="Storage\IWarehouse.cs" />
-    <Compile Include="Storage\JsonSerializer.cs" />
-    <Compile Include="Storage\Warehouse.cs" />
-    <Compile Include="Tasks\HelpnetTaskProvider.cs" />
-    <Compile Include="Tasks\TaskProvider.cs" />
     <Compile Include="Utility\StringExtensions.cs" />
+    <EmbeddedResource Include="CleanBranches.resx">
+      <DependentUpon>CleanBranches.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CreateEnvironment.resx">
+      <DependentUpon>CreateEnvironment.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="CreateEnvironmentFeedback.resx">
+      <DependentUpon>CreateEnvironmentFeedback.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Main.resx">
       <DependentUpon>Main.cs</DependentUpon>
     </EmbeddedResource>

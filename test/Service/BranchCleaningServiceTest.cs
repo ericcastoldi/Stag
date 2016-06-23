@@ -13,7 +13,7 @@ namespace Stag.Test.Service
 {
     public class BranchCleaningServiceTest
     {
-        [Fact]
+        //[Fact]
         public void ShouldGetCommits()
         {
             var git = new Git();
@@ -24,7 +24,7 @@ namespace Stag.Test.Service
             Assert.NotNull(log);
         }
 
-        [Fact]
+        //[Fact]
         public void ShouldGetModifications()
         {
             var git = new Git();
@@ -34,7 +34,7 @@ namespace Stag.Test.Service
             Assert.NotNull(modifications);
         }
 
-        [Fact]
+        //[Fact]
         public void ShouldGetMasterCommits()
         {
             var git = new Git();
@@ -50,7 +50,7 @@ namespace Stag.Test.Service
             Assert.NotNull(commitsString);
         }
 
-        [Fact]
+        //[Fact]
         public void ShouldGetBranches()
         {
             // Arrange

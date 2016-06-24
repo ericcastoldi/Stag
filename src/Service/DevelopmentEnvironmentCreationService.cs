@@ -4,6 +4,7 @@ using Stag.SourceControl;
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Reflection;
 using System.Text;
 
 namespace Stag.Service
@@ -32,15 +33,14 @@ namespace Stag.Service
         public void CreateEnvironment()
         {
             /*
+             * Checkout branch OS
+             * PULL
              * Checkout master
              * PULL
              * Altera Versao
              * Compila solution
-             * Cria base vazia
              * Chama "Configurador.exe gsbd"
-             *
-             * Checkout branch OS
-             * Pull
+
              * Cria branch tarefa
              * Altera connection strings do web.config e app.config
              * Abre VS
@@ -134,7 +134,10 @@ namespace Stag.Service
         private void ChangeAssemblyInfoVersion(string workspace)
         {
             EmitMessage(string.Format("Alterando a versão dos AssemblyInfo.cs da solution '{0}\\SapiensNfe.sln' para '{1}'...", workspace, _version));
-            this.RunProcess(workspace, string.Format("{0}\\AlteraVersao.bat", workspace), _version);
+
+            //"C:\\github\\Stag\\src\\bin\\Debug\\Resources\AlteraVersao.bat"
+            var path = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location), "Resources");
+            this.RunProcess(path, path + "\\AlteraVersao.bat", string.Format("\"{0}\" {1}", workspace, _version));
         }
 
         private void CompileSolution(string workspace)

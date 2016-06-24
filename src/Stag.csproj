@@ -163,6 +163,9 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Resources\AlteraVersao.bat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <None Include="Resources\Bolt.ico" />
   </ItemGroup>
   <ItemGroup>

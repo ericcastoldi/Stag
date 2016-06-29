@@ -51,11 +51,6 @@ namespace Stag
             MessageBox.Show(result.Description, boxTitle, MessageBoxButtons.OK, icon);
         }
 
-        private void lnkOpenVisualStudio_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            System.Diagnostics.Process.Start("C:\\Program Files (x86)\\Microsoft Visual Studio 11.0\\Common7\\IDE\\devenv.exe", _settings.Workspace + "\\SapiensNfe.sln");
-        }
-
         private void btnCleanBranches_Click(object sender, EventArgs e)
         {
             var cleanBranches = new CleanBranches(_settings);
@@ -67,6 +62,11 @@ namespace Stag
             var environment = new CreateEnvironment(_settings);
             environment.ShowDialog(this);
             UpdateTitle();
+        }
+
+        private void btnOpenSolution_Click(object sender, EventArgs e)
+        {
+            System.Diagnostics.Process.Start("C:\\Program Files (x86)\\Microsoft Visual Studio 11.0\\Common7\\IDE\\devenv.exe", _settings.Workspace + "\\SapiensNfe.sln");
         }
     }
 }

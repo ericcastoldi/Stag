@@ -33,13 +33,14 @@
             this.btnCreateNewEnvironment = new System.Windows.Forms.Button();
             this.lblCurrentWorkspace = new System.Windows.Forms.Label();
             this.txtWorkspace = new System.Windows.Forms.TextBox();
+            this.btnOpenSolution = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // btnCleanBranches
             // 
             this.btnCleanBranches.Location = new System.Drawing.Point(16, 56);
             this.btnCleanBranches.Name = "btnCleanBranches";
-            this.btnCleanBranches.Size = new System.Drawing.Size(145, 23);
+            this.btnCleanBranches.Size = new System.Drawing.Size(157, 23);
             this.btnCleanBranches.TabIndex = 4;
             this.btnCleanBranches.Text = "Limpar branches...";
             this.btnCleanBranches.UseVisualStyleBackColor = true;
@@ -47,7 +48,7 @@
             // 
             // btnCreateNewEnvironment
             // 
-            this.btnCreateNewEnvironment.Location = new System.Drawing.Point(167, 56);
+            this.btnCreateNewEnvironment.Location = new System.Drawing.Point(179, 56);
             this.btnCreateNewEnvironment.Name = "btnCreateNewEnvironment";
             this.btnCreateNewEnvironment.Size = new System.Drawing.Size(217, 23);
             this.btnCreateNewEnvironment.TabIndex = 5;
@@ -68,14 +69,26 @@
             // 
             this.txtWorkspace.Location = new System.Drawing.Point(16, 30);
             this.txtWorkspace.Name = "txtWorkspace";
-            this.txtWorkspace.Size = new System.Drawing.Size(368, 20);
+            this.txtWorkspace.ReadOnly = true;
+            this.txtWorkspace.Size = new System.Drawing.Size(287, 20);
             this.txtWorkspace.TabIndex = 7;
+            // 
+            // btnOpenSolution
+            // 
+            this.btnOpenSolution.Location = new System.Drawing.Point(309, 27);
+            this.btnOpenSolution.Name = "btnOpenSolution";
+            this.btnOpenSolution.Size = new System.Drawing.Size(87, 23);
+            this.btnOpenSolution.TabIndex = 8;
+            this.btnOpenSolution.Text = "Abrir Solution";
+            this.btnOpenSolution.UseVisualStyleBackColor = true;
+            this.btnOpenSolution.Click += new System.EventHandler(this.btnOpenSolution_Click);
             // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(393, 91);
+            this.ClientSize = new System.Drawing.Size(403, 91);
+            this.Controls.Add(this.btnOpenSolution);
             this.Controls.Add(this.txtWorkspace);
             this.Controls.Add(this.lblCurrentWorkspace);
             this.Controls.Add(this.btnCreateNewEnvironment);
@@ -96,6 +109,7 @@
         private System.Windows.Forms.Button btnCreateNewEnvironment;
         private System.Windows.Forms.Label lblCurrentWorkspace;
         private System.Windows.Forms.TextBox txtWorkspace;
+        private System.Windows.Forms.Button btnOpenSolution;
     }
 }
 

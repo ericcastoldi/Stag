@@ -8,6 +8,23 @@ namespace Stag
 {
     public partial class Main : Form
     {
+        private readonly string _workspace;
+        private readonly ISettings _settings;
+
+        public Main(string workspace)
+            : this()
+        {
+            var path = System.IO.Path.Combine(System.IO.Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location), "config.json");
+
+            _workspace = workspace;
+            _settings = new Settings(path);
+
+            if (!string.IsNullOrWhiteSpace(_workspace))
+            {
+                _settings.Workspace = _workspace;
+            }
+        }
+
         public Main()
         {
             InitializeComponent();
@@ -16,29 +33,13 @@ namespace Stag
         private void Main_Load(object sender, EventArgs e)
         {
             this.UpdateTitle();
+            this.txtWorkspace.Text = _settings.Workspace;
         }
 
         private void UpdateTitle()
         {
-            var git = new Git();
+            var git = new Git(_settings);
             this.Text = "Stag - " + git.GetCurrentBranch().Name;
-        }
-
-        private void btnCreateDevelopmentBranch_Click(object sender, EventArgs e)
-        {
-            var branchName = txtBranchName.Text;
-
-            if (string.IsNullOrWhiteSpace(branchName))
-            {
-                MessageBox.Show("Defina um nome para o branch.", "Criação de branch...", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-
-            var git = new Git();
-            git.CreateBranch(branchName);
-
-            MessageBox.Show(string.Format("Branch '{0}' criado com sucesso!", branchName), "Criação de branch...", MessageBoxButtons.OK, MessageBoxIcon.None);
-
-            this.UpdateTitle();
         }
 
         private static void ShowResult(ServiceResult result, string boxTitle)
@@ -52,20 +53,18 @@ namespace Stag
 
         private void lnkOpenVisualStudio_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
-            var settings = new Settings();
-
-            System.Diagnostics.Process.Start("C:\\Program Files (x86)\\Microsoft Visual Studio 11.0\\Common7\\IDE\\devenv.exe", settings.Workspace + "\\SapiensNfe.sln");
+            System.Diagnostics.Process.Start("C:\\Program Files (x86)\\Microsoft Visual Studio 11.0\\Common7\\IDE\\devenv.exe", _settings.Workspace + "\\SapiensNfe.sln");
         }
 
         private void btnCleanBranches_Click(object sender, EventArgs e)
         {
-            var cleanBranches = new CleanBranches();
+            var cleanBranches = new CleanBranches(_settings);
             cleanBranches.Show();
         }
 
         private void btnCreateNewEnvironment_Click(object sender, EventArgs e)
         {
-            var environment = new CreateEnvironment();
+            var environment = new CreateEnvironment(_settings);
             environment.ShowDialog(this);
             UpdateTitle();
         }

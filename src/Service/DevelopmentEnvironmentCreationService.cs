@@ -18,12 +18,16 @@ namespace Stag.Service
         private readonly string _version;
         private readonly string _branch;
         private readonly string _taskBranchName;
+        private readonly ISettings _settings;
+        private readonly Git _git;
 
-        public DevelopmentEnvironmentCreationService(string version, string branch, string taskBranchName)
+        internal DevelopmentEnvironmentCreationService(ISettings settings, string version, string branch, string taskBranchName)
         {
             _branch = branch;
             _version = version;
             _taskBranchName = taskBranchName;
+            _settings = settings;
+            _git = new Git(_settings);
         }
 
         public event DevelopmentEnvironmentCreationDone Done;
@@ -53,55 +57,52 @@ namespace Stag.Service
                     throw new InvalidOperationException("Informe a versão, o branch de origem e o nome do branch de feature a ser criado.");
                 }
 
-                var settings = new Settings();
-                var git = new Git(settings);
-
-                var currentBranch = git.GetCurrentBranch();
-                EmitMessage(string.Format("Iniciando processo de criação do ambiente de desenvolvimento. Descartando todas as alterações existentes no branch {0}, workspace {1}...", currentBranch.Name, settings.Workspace));
-                git.HardReset();
+                var currentBranch = _git.GetCurrentBranch();
+                EmitMessage(string.Format("Iniciando processo de criação do ambiente de desenvolvimento. Descartando todas as alterações existentes no branch {0}, workspace {1}...", currentBranch.Name, _settings.Workspace));
+                _git.HardReset();
 
                 EmitMessage(string.Format("Fazendo checkout do branch {0}...", _branch));
-                git.Checkout(_branch);
+                _git.Checkout(_branch);
 
                 EmitMessage(string.Format("Atualizando branch {0}...", _branch));
-                git.UpdateCurrentBranch();
+                _git.UpdateCurrentBranch();
 
                 EmitMessage(string.Format("Fazendo checkout do branch {0}...", "master"));
-                git.Checkout("master");
+                _git.Checkout("master");
 
                 EmitMessage(string.Format("Atualizando branch {0}...", "master"));
-                git.UpdateCurrentBranch();
+                _git.UpdateCurrentBranch();
 
-                this.NugetRestore(settings.Workspace);
+                this.NugetRestore(_settings.Workspace);
 
-                this.ChangeAssemblyInfoVersion(settings.Workspace);
+                this.ChangeAssemblyInfoVersion(_settings.Workspace);
 
-                this.CompileSolution(settings.Workspace);
+                this.CompileSolution(_settings.Workspace);
 
-                this.InitializeDatabaseConfiguration(settings.Workspace);
+                this.InitializeDatabaseConfiguration(_settings.Workspace);
 
                 EmitMessage(string.Format("Criando o branch {0} a partir do branch {1}...", _taskBranchName, _branch));
-                git.CreateBranch(_taskBranchName, _branch);
+                _git.CreateBranch(_taskBranchName, _branch);
 
                 try
                 {
                     EmitMessage(string.Format("Fazendo checkout do branch {0}...", _taskBranchName));
-                    git.Checkout(_taskBranchName);
+                    _git.Checkout(_taskBranchName);
                 }
                 catch (MergeConflictException ex)
                 {
                     EmitMessage(string.Format("Ocorreu um erro ao fazer o checkout do branch {0}. Erro: {1}. Fazendo reset das alterações do branch...", _taskBranchName, ex.Message));
-                    git.HardReset();
+                    _git.HardReset();
 
                     EmitMessage(string.Format("Tentando fazer o checkout do branch {0} novamente...", _taskBranchName));
-                    git.Checkout(_taskBranchName);
+                    _git.Checkout(_taskBranchName);
 
-                    EmitMessage(string.Format("Em razão do erro no checkout do branch {0} será necessário configurar a base novamente para que os arquivos *.config do repositório {1} tenham suas connection strings atualizadas. ", _taskBranchName, settings.Workspace));
+                    EmitMessage(string.Format("Em razão do erro no checkout do branch {0} será necessário configurar a base novamente para que os arquivos *.config do repositório {1} tenham suas connection strings atualizadas. ", _taskBranchName, _settings.Workspace));
 
-                    this.InitializeDatabaseConfiguration(settings.Workspace);
+                    this.InitializeDatabaseConfiguration(_settings.Workspace);
                 }
 
-                var solutionPath = settings.Workspace + "\\SapiensNfe.sln";
+                var solutionPath = _settings.Workspace + "\\SapiensNfe.sln";
                 EmitMessage(string.Format("Abrindo Visual Studio. Solution: '{0}'.", solutionPath));
                 Process.Start("C:\\Program Files (x86)\\Microsoft Visual Studio 11.0\\Common7\\IDE\\devenv.exe", solutionPath);
 

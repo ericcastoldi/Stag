@@ -1,4 +1,6 @@
-﻿using Stag.Service;
+﻿using Stag.Configuration;
+using Stag.Service;
+using Stag.SourceControl;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -8,10 +10,10 @@ namespace Stag
 {
     public partial class CleanBranches : Form
     {
-        private BranchCleaningService _branchCleaningService;
+        private readonly BranchCleaningService _branchCleaningService;
 
-        public CleanBranches()
-            : this(new BranchCleaningService())
+        internal CleanBranches(ISettings settings)
+            : this(new BranchCleaningService(new Git(settings)))
         {
         }
 

@@ -8,8 +8,11 @@ namespace Stag
 {
     public partial class CreateEnvironment : Form
     {
-        public CreateEnvironment()
+        private readonly ISettings _settings;
+
+        internal CreateEnvironment(ISettings settings)
         {
+            _settings = settings;
             InitializeComponent();
         }
 
@@ -18,7 +21,7 @@ namespace Stag
             var dialogResult = MessageBox.Show("Para realizar a criação do ambiente de desenvolvimento o Stag descartará todas as alterações pendentes no repositório git. Deseja continuar?", "Criação de ambiente de desenvolvimento", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (dialogResult == DialogResult.Yes)
             {
-                var createEnvironmentFeedback = new CreateEnvironmentFeedback(txtVersion.Text, txtVersionBranchName.Text, txtTaskBranchName.Text);
+                var createEnvironmentFeedback = new CreateEnvironmentFeedback(_settings, txtVersion.Text, txtVersionBranchName.Text, txtTaskBranchName.Text);
                 createEnvironmentFeedback.ShowDialog(this);
                 this.Close();
             }

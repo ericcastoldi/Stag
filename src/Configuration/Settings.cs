@@ -4,6 +4,16 @@ namespace Stag.Configuration
 {
     internal class Settings : JsonConfiguration, ISettings
     {
+        public Settings()
+            : base()
+        {
+        }
+
+        public Settings(string configFileName)
+            : base(configFileName)
+        {
+        }
+
         public string Workspace { get; set; }
 
         public string WorkBranch { get; set; }
